@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:note_app/models/note_model.dart';
 
 class NoteWidget extends StatelessWidget {
-  const NoteWidget({super.key});
+  const NoteWidget({super.key, required this.note});
+  final  Note note;
 
   @override
   Widget build(BuildContext context) {
@@ -11,11 +14,11 @@ class NoteWidget extends StatelessWidget {
         child: Column(
           children: [
             ListTile(
-              title: Text("Flutter Tips"),
-              subtitle: Text("This Is A Note"),
+              title: Text(note.title),
+              subtitle: Text(note.content),
               trailing: Icon(Icons.delete),
             ),
-            ListTile(trailing: Text("12/11/2001")),
+            ListTile(trailing: Text(DateFormat('MMMM d h:mm a').format(DateTime.now())),),
           ],
         ),
       ),
