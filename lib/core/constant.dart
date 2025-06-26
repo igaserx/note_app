@@ -1,0 +1,1 @@
+ const String kBox = "note_box";
