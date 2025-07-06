@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:note_app/core/constant.dart';
 import 'package:note_app/view_models/note_cubit/note_cubit.dart';
 import 'package:note_app/models/note_model.dart';
+import 'package:note_app/widgets/color_picker.dart';
 import 'package:note_app/widgets/note_form.dart';
 
 class AddNoteView extends StatefulWidget {
-   final Note? note;
-  const  AddNoteView({super.key, this.note});
+  final Note? note;
+  const AddNoteView({super.key, this.note});
 
   @override
   State<AddNoteView> createState() => _AddNoteViewState();
@@ -16,6 +16,7 @@ class AddNoteView extends StatefulWidget {
 class _AddNoteViewState extends State<AddNoteView> {
   late final TextEditingController titleController;
   late final TextEditingController contentController;
+
   @override
   void initState() {
     super.initState();
@@ -30,11 +31,11 @@ class _AddNoteViewState extends State<AddNoteView> {
     super.dispose();
   }
 
+  Color? selectedColor;
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<NoteCubit, NoteState>(
-      listener: (context, state) {
-      },
+      listener: (context, state) {},
       builder: (context, state) {
         return Scaffold(
           appBar: AppBar(
@@ -44,19 +45,13 @@ class _AddNoteViewState extends State<AddNoteView> {
                   showModalBottomSheet(
                     context: context,
                     builder:
-                        (context) => GridView.builder(
-                          itemCount: kColors.length,
-                          gridDelegate:
-                              SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisSpacing: 1.5,
-                                crossAxisCount: 8,
-                              ),
-                          itemBuilder:
-                              (context, index) => Container(
-                                height: 5,
-                                width: 5,
-                                color: kColors[index],
-                              ),
+                        (context) => SingleChildScrollView(
+                          child: ColorPicker(
+                            selectedColor: selectedColor,
+                            onColorSelected: (Color value) {
+                              selectedColor = value;
+                            },
+                          ),
                         ),
                   );
                 },
@@ -65,19 +60,21 @@ class _AddNoteViewState extends State<AddNoteView> {
               SizedBox(width: 10),
               IconButton(
                 onPressed: () {
-                  // To Edit The Note 
+                  // To Edit The Note
                   if (widget.note != null && widget.note!.isInBox) {
                     widget.note!.title = titleController.text;
                     widget.note!.content = contentController.text;
                     widget.note!.save();
                     BlocProvider.of<NoteCubit>(context).fetchNotes();
-                    Navigator.pop(context); 
+                    Navigator.pop(context);
                   } else {
-                    // To Add New Note 
+                    // To Add New Note
                     final newNote = Note(
                       title: titleController.text,
                       content: contentController.text,
                       time: DateTime.now(),
+                      color:
+                          selectedColor?.toARGB32() ?? Colors.blue.toARGB32(),
                     );
                     context.read<NoteCubit>().addNote(newNote);
                     Navigator.pop(context);

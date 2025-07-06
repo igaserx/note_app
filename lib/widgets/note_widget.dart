@@ -19,7 +19,7 @@ class NoteWidget extends StatelessWidget {
         );
       },
       child: Card(
-        color: Colors.amber,
+        color: Color(note.color),
         child: Expanded(
           child: Column(
             children: [
