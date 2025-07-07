@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:note_app/view_models/note_cubit/note_cubit.dart';
-import 'package:note_app/views/add_note_view.dart';
-import 'package:note_app/widgets/note_widget.dart';
+import 'package:note_app/widgets/custom_f_a_b.dart';
+import 'package:note_app/widgets/cutom_body_note.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -23,45 +23,23 @@ class _HomeViewState extends State<HomeView> {
   Widget build(BuildContext context) {
     
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Note App"),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10.0),
-            child: IconButton(onPressed: () {}, icon: Icon(Icons.search)),
-          ),
-        ],
-      ),
-      body: BlocBuilder<NoteCubit, NoteState>(
-        builder: (context, state) {
-           if (state is NoteLoading) return CircularProgressIndicator();
-          if(state is NoteSuccess)
-          {
-              return ListView.builder(
-            itemCount: state.notes.length,
-            itemBuilder:
-                (context, index) =>
-                
-                 NoteWidget(
-                  note: state.notes[index]
-                ),
-          );
-          }
-           if (state is NoteFailure) return Text('Error: ${state.errMessage}');
-    return Container();
-          
-        },
-      ),
-      floatingActionButton: FloatingActionButton(
-        shape: CircleBorder(),
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) =>  AddNoteView()),
-          );
-        },
-        child: Icon(Icons.add),
-      ),
+      backgroundColor: Colors.white,
+      appBar: customAppBar(),
+      body: CutomBodyNote(),
+      floatingActionButton: CustomFAB(),
+    );
+  }
+
+  AppBar customAppBar() {
+    return AppBar(
+      backgroundColor: Colors.white,
+      title: Text("Note App"),
+      actions: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10.0),
+          child: IconButton(onPressed: () {}, icon: Icon(Icons.search)),
+        ),
+      ],
     );
   }
 }

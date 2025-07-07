@@ -12,6 +12,8 @@ class NoteWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
+      focusColor: Colors.transparent,
+      borderRadius: BorderRadius.circular(16),
       onTap: () {
         Navigator.push(
           context,
@@ -20,27 +22,33 @@ class NoteWidget extends StatelessWidget {
       },
       child: Card(
         color: Color(note.color),
-        child: Expanded(
-          child: Column(
-            children: [
-              ListTile(
-                title: Text(note.title),
-                subtitle: Text(note.content),
-                trailing: IconButton(
-                  onPressed: () {
-                    note.delete();
-                    BlocProvider.of<NoteCubit>(context).fetchNotes();
-                  },
-                  icon: Icon(Icons.delete),
-                ),
+        child: Column(
+          children: [
+            ListTile(
+              title: Text(note.title,style : TextStyle(color: Colors.white , fontSize: 16) ),
+              subtitle: Text(note.content,
+              maxLines: 4,
+              style: TextStyle(color: Colors.white , fontSize: 12)),
+              trailing: IconButton(
+                onPressed: () {
+                  note.delete();
+                  BlocProvider.of<NoteCubit>(context).fetchNotes();
+                },
+                icon: Icon(Icons.delete,color: Colors.white,),
               ),
-              ListTile(
-                trailing: Text(
-                  DateFormat('MMMM d h:mm a').format(note.time),
-                ),
+            ),
+            Container(
+              padding: EdgeInsets.only(right: 26,bottom: 10),
+              width: double.infinity,
+              child: Text(
+                DateFormat('MMMM d').format(note.time,),
+                textAlign: TextAlign.end
+                ,style : TextStyle(
+                  fontSize: 12,
+                  color: Colors.white)
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

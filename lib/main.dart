@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
       create: (context) => NoteCubit(),
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        theme: ThemeData(brightness: Brightness.light),
+        
 
         home: HomeView(),
       ),

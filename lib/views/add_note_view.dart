@@ -38,7 +38,11 @@ class _AddNoteViewState extends State<AddNoteView> {
       listener: (context, state) {},
       builder: (context, state) {
         return Scaffold(
+                backgroundColor: Colors.white,
+
           appBar: AppBar(
+                  backgroundColor: Colors.white,
+
             actions: [
               InkWell(
                 onTap: () {
@@ -64,6 +68,7 @@ class _AddNoteViewState extends State<AddNoteView> {
                   if (widget.note != null && widget.note!.isInBox) {
                     widget.note!.title = titleController.text;
                     widget.note!.content = contentController.text;
+                    widget.note!.color = selectedColor!.toARGB32();
                     widget.note!.save();
                     BlocProvider.of<NoteCubit>(context).fetchNotes();
                     Navigator.pop(context);

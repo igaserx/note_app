@@ -77,6 +77,7 @@ class _NoteFormState extends State<NoteForm> {
           ),
           Expanded(
             child: TextField(
+              maxLines: null,
               controller: widget.contentController,
               style: TextStyle(fontSize: 18),
               decoration: InputDecoration(
